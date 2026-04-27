@@ -1,0 +1,92 @@
+"""Tests for forge internals."""
+
+import sys
+import pytest
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from forge.commands import _slugify
+from forge.engine import render_str, render_tree
+from forge import templates
+
+
+# ── slugify ──────────────────────────────────────────────────────────────────
+
+def test_slugify_basic():
+    assert _slugify("my-project") == "my_project"
+    assert _slugify("My Cool App") == "my_cool_app"
+    assert _slugify("hello_world") == "hello_world"
+
+def test_slugify_edge_cases():
+    assert _slugify("123bad") == "p_123bad"
+    assert _slugify("a--b  c") == "a_b_c"
+
+
+# ── render_str ───────────────────────────────────────────────────────────────
+
+def test_render_str_basic():
+    assert render_str("hello {name}", {"name": "world"}) == "hello world"
+
+def test_render_str_unknown_key_preserved():
+    assert render_str("hello {missing}", {}) == "hello {missing}"
+
+def test_render_str_multiple():
+    result = render_str("{a} + {b} = {c}", {"a": "1", "b": "2", "c": "3"})
+    assert result == "1 + 2 = 3"
+
+
+# ── render_tree (dry run) ─────────────────────────────────────────────────────
+
+def test_render_tree_dry_run(tmp_path):
+    tree = {
+        "src": {
+            "{slug}": {
+                "__init__.py": "# {name}\n",
+            }
+        },
+        "README.md": "# {name}\n",
+    }
+    ctx = {"name": "myapp", "slug": "myapp"}
+    entries = render_tree(tree, ctx, tmp_path / "out", dry_run=True)
+    paths = [e[0] for e in entries]
+    assert "src" in paths
+    assert "src/myapp" in paths
+    assert "src/myapp/__init__.py" in paths
+    assert "README.md" in paths
+
+
+def test_render_tree_writes(tmp_path):
+    tree = {"hello.txt": "hello {name}"}
+    ctx = {"name": "world"}
+    dest = tmp_path / "proj"
+    render_tree(tree, ctx, dest)
+    assert (dest / "hello.txt").read_text() == "hello world"
+
+
+# ── templates ────────────────────────────────────────────────────────────────
+
+def test_all_templates_registered():
+    assert set(templates.ALL.keys()) == {"py", "fastapi", "scraper", "cli"}
+
+def test_templates_have_required_keys():
+    for name, tpl in templates.ALL.items():
+        assert "name" in tpl, f"{name} missing 'name'"
+        assert "description" in tpl, f"{name} missing 'description'"
+        assert "tree" in tpl, f"{name} missing 'tree'"
+
+def test_templates_render_without_error(tmp_path):
+    ctx = {
+        "name": "test_project",
+        "slug": "test_project",
+        "author": "Test Author",
+        "email": "test@example.com",
+        "year": "2025",
+        "python": "3.12",
+        "license": "MIT",
+        "description_placeholder": "a test project",
+    }
+    for tpl_name, tpl in templates.ALL.items():
+        dest = tmp_path / tpl_name
+        entries = render_tree(tpl["tree"], ctx, dest, dry_run=True)
+        assert len(entries) > 0, f"template {tpl_name} produced no entries"
