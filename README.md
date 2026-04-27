@@ -28,7 +28,7 @@ forge new my-api --template fastapi
   ✓ created /Users/you/my-api
  
   next steps
-  ─────────────────────────────
+  
   · cd my-api
   · source .venv/bin/activate
   · pip install -e ".[dev]"
