@@ -5,7 +5,7 @@
 I got tired of spending the first 20 minutes of every new project doing the same thing (creating the src layout, wiring up ruff, writing the same pyproject.toml for the fifth time). So I wrote this:
  
 ```
-$ forge new my-api --template fastapi
+forge new my-api --template fastapi
  
   scaffolding my-api using fastapi
  
