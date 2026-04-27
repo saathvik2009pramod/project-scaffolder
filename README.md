@@ -2,7 +2,7 @@
 
 # forge
  
-I got tired of spending the first 20 minutes of every new project doing the same thing — creating the src layout, wiring up ruff, writing the same pyproject.toml for the fifth time. So I wrote this.
+I got tired of spending the first 20 minutes of every new project doing the same thing (creating the src layout, wiring up ruff, writing the same pyproject.toml for the fifth time). So I wrote this:
  
 ```
 $ forge new my-api --template fastapi
@@ -35,7 +35,7 @@ $ forge new my-api --template fastapi
   · make test
 ```
  
-It's not trying to be the next `cookiecutter`. It's a single file of templates that reflect *my* opinions, living in my dotfiles, installed with `pip install -e .`. Fork it and make it yours.
+It's not trying to be the next "cookiecutter". It's a single file of templates that reflect *my* opinions, living in my dotfiles, installed with `pip install -e .`. Fork it and make it yours.
  
 ## install
  
@@ -44,7 +44,7 @@ git clone https://github.com/you/forge
 cd forge && pip install -e .
 ```
  
-Or if you keep a dotfiles repo, just drop it in there. That's the point — it travels with you.
+Or if you keep a dotfiles repo, just drop it in there. The point is that it "travels" with you.
  
 ## usage
  
@@ -76,17 +76,17 @@ forge config        # show everything
  
 ## templates
  
-**`py`** — a plain Python package. src layout, ruff configured, pytest, pre-commit hook. The boring correct way to start a library.
+**`py`** --> a plain Python package. src layout, ruff configured, pytest, pre-commit hook. The boring correct way to start a library.
  
-**`fastapi`** — an actual FastAPI service, not a hello world. App factory pattern, routers in their own files, pydantic-settings for config, `.env.example` so you don't accidentally commit secrets, and a Dockerfile that works.
+**`fastapi`** --> an actual FastAPI service, not a hello world. App factory pattern, routers in their own files, pydantic-settings for config, `.env.example` so you don't accidentally commit secrets, and a Dockerfile that works.
  
-**`scraper`** — async httpx with automatic retries via tenacity, selectolax for parsing (much faster than BeautifulSoup), and export helpers for both JSON and CSV. The stuff I reach for every time.
+**`scraper`** --> async httpx with automatic retries via tenacity, selectolax for parsing (much faster than BeautifulSoup), and export helpers for both JSON and CSV. The stuff I reach for every time.
  
-**`cli`** — click + rich, with a per-user config file at `~/.config/{name}/config.toml` already wired up. The `[project.scripts]` entrypoint is set so `pip install` just works.
+**`cli`** --> click + rich, with a per-user config file at `~/.config/{name}/config.toml` already wired up. The `[project.scripts]` entrypoint is set so `pip install` just works.
  
 ## making your own templates
  
-Templates are Python dicts in `forge/templates.py`. Nested dicts become directories, string leaves become files. Everything supports `{variable}` substitution.
+Templates are Python dicts in `forge/templates.py`. Nested dicts become directories, string leaves become files. Everything supports variable substitution.
  
 ```python
 MY_TEMPLATE = {
@@ -105,9 +105,9 @@ MY_TEMPLATE = {
 }
 ```
  
-Add it to `ALL` at the bottom of the file and it shows up in `forge list` immediately.
+Add to `ALL` at the bottom of the file and it shows up in `forge list` immediately.
  
-Available in every template: `{name}`, `{slug}`, `{author}`, `{email}`, `{year}`, `{python}`, `{license}`.
+Available in every template --> `{name}`, `{slug}`, `{author}`, `{email}`, `{year}`, `{python}`, `{license}`.
  
 ## config
  
