@@ -35,7 +35,7 @@ forge new my-api --template fastapi
   · make test
 ```
  
-It's not trying to be the next "cookiecutter". It's a single file of templates that reflect *my* opinions, living in my dotfiles, installed with `pip install -e .`. Fork it and make it yours.
+It's not trying to be the next "cookiecutter" --> a single file of templates that reflect *my* opinions, living in my dotfiles, installed with `pip install -e .`. Fork it and make it yours.
  
 ## install
  
@@ -115,7 +115,7 @@ Lives at `~/.forge/config.toml`, plain TOML, edit it directly if you want. If `a
  
 ## no dependencies
  
-Deliberately. No click, no rich, no jinja. Just argparse and some hand-rolled ANSI codes. It installs in seconds and will never break because some transitive dependency released a bad version.
+Deliberately + No click, no rich, no jinja. Just argparse and some hand-rolled ANSI codes. It installs in seconds and will never break because some transitive dependency released a bad version.
  
 ## contributing
  
